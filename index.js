@@ -35,11 +35,12 @@ function readFile(file) {
  * PostCSS Nested Import Plugin
  * @type {[type]}
  */
-module.exports = postcss.plugin('postcss-nested-import', () => {
+module.exports = postcss.plugin('postcss-nested-import', (options_) => {
+    const options = Object.assign({atRuleName: 'import'},options_)
     return root => {
         return new Promise(resolve => {
             let prom = Promise.resolve();
-            root.walkAtRules('import', importAtRule => {
+            root.walkAtRules(options.atRuleName, importAtRule => {
                 if (importAtRule.params) {
                     const path = parseImportPath(importAtRule.params);
                     if (path === null) {
